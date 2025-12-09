@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Simple Console Viewport</title>
+  <style>
+    body { 
+      font-family: monospace; 
+      background:#111; 
+      color:#eee; 
+    }
+    #console {
+      background:#000;
+      padding:10px;
+      height:300px;
+      overflow-y:auto;
+      border:1px solid #444;
+    }
+    .log   { color:#9cf; }
+    .warn  { color:#fc3; }
+    .error { color:#f66; }
+  </style>
+</head>
+<body>
+  <h2>Console Output</h2>
+  <div id="console"></div>
+
+  <script>
+    const consoleDiv = document.getElementById('console');
+
+    function print(kind, args) {
+        const line = document.createElement('div');
+        line.className = kind;
+        line.textContent = `[${kind}] ` + args.map(a =>
+        (typeof a === 'object' ? JSON.stringify(a) : a)
+        ).join(' ');
+        consoleDiv.appendChild(line);
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+
+    ['log','info','warn','error'].forEach(kind => {
+        const orig = console[kind];
+        console[kind] = (...args) => {
+        print(kind, args);
+        orig.apply(console, args);
+        };
+    });
+
+    // Capture uncaught runtime errors
+    window.onerror = (msg, src, line, col, err) => {
+        print('error', [err ? err.stack || err : msg]);
+    };
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
