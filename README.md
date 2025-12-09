@@ -1,6 +1,7 @@
 # Javascript_Sandbox
 A handy little sandbox in which to easily output javascript.
 Created for use with VSCode and the Live Server addin.
+Created with the aid of Copilot.
 
 The index.html page essentially routes all of the error, console.log/.error/.warning output from the browser's inspector console to a viewport. Just put the index.html and script.js together in the same directory/folder and run the index.html from VSCode using Live Server.
 You'll get the viewport in your browser window like below:
